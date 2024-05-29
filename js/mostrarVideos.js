@@ -1,14 +1,11 @@
-import { conectaAPI } from "./conectaAPI.js";
+import { conexionApi } from "./conexionAPI.js";
 
 const lista = document.querySelector("[data-lista]");
-
-//validaciones
-
-export default function construyeCard(titulo, descripcion, url, imagen) {
+export default function crearCard(titulo, descripcion, url, imagen) {
     const video = document.createElement("li");
-    video.className = "videos__item";
-
-    video.innerHTML = `<iframe width="100%" height="72%" src="${url}"
+    video.classNameP = "videos_items";
+    video.innerHTML = `
+    <iframe width="100%" height="72%" src="${url}"
         title="${titulo}" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; geolocation"
         allowfullscreen></iframe>
@@ -16,20 +13,18 @@ export default function construyeCard(titulo, descripcion, url, imagen) {
             <img src="${imagen}" alt="logo canal alura">
             <h3>${titulo}</h3>
             <p>${descripcion}</p>
-        </div>`
-
-    return video;
+        </div>`;
+        return video;
 }
 
-
-async function listaVideos() {
-    try{
-        const listaAPI = await conectaAPI.listaVideos();
-        listaAPI.forEach(element => lista
-            .appendChild(construyeCard(element.titulo, element.descripcion, element.url, element.imagen)));
-    }catch{
-        lista.innerHTML=`<h2 class="mensaje__titulo">No fue posible cargar la lista de videos</h2>`;
+async function listarVideos() {
+    try {
+        const listaApi = await conexionApi.listarVideos();
+    listaApi.map(video => lista.appendChild(crearCard(video.titulo, video.descripcion, video.url, video.imagen)));
+    } catch {
+        lista.innerHTML='<h2 class="mensaje__titulo">Ha ocurrido un problema con la conexion</h2>';
     }
-}
 
-listaVideos();
+
+}
+listarVideos()

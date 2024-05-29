@@ -1,24 +1,24 @@
-import { conectaAPI } from "./conectaAPI.js";
+import { conexionApi } from "./conexionAPI.js";
 
 const formulario = document.querySelector("[data-formulario]");
 
-//validaciones
-
-async function crearVideo(evento){
+async  function crearVideo(evento) {
     evento.preventDefault();
 
-    const imagen= document.querySelector("[data-imagen]").value;
+    const titulo = document.querySelector("[data-titulo]").value;
     const url = document.querySelector("[data-url]").value;
-    const titulo=document.querySelector("[data-titulo]").value;
-    const descripcion = Math.floor(Math.random()*10);
-   
-    try{
-        await conectaAPI.crearVideo(titulo,descripcion,url,imagen)
+    const imagen = document.querySelector("[data-imagen]").value;
+    const descripcion = Math.floor(Math.random() * 10).toString();
     
-        window.location.href="../pages/envio-concluido.html"
-    }catch(e){
-        alert(e);
+
+    try {
+        await conexionApi.enviarVideo(titulo, descripcion, url, imagen);
+        window.location.href="../pages/envio-concluido.html";
+    } catch (error) {
+        alert(error);
     }
+        
 }
 
-formulario,addEventListener("submit",evento=>crearVideo(evento));
+
+formulario.addEventListener("submit", evento => crearVideo(evento));
